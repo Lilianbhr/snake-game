@@ -41,6 +41,8 @@ class Snake(pygame.sprite.Sprite):
         print(self.rect)
         self.rect.x = (nb_tuiles/2) * taille_tuiles
         self.rect.y = (nb_tuiles/2) * taille_tuiles
+        self.taille = 3
+        self.liste_pos = []
 
     def draw(self):
         screen.blit(self.tete, self.rect)
@@ -51,6 +53,9 @@ snake = Snake()
 clock = pygame.time.Clock()
 running = True
 while running :
+    snake.liste_pos.append((snake.rect.x, snake.rect.y))
+    if len(snake.liste_pos) > snake.taille :
+        snake.liste_pos.remove(snake.liste_pos[0])
     screen.fill(couleurs["vert"])
     snake.draw()
     for event in pygame.event.get():
