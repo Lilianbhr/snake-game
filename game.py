@@ -38,7 +38,6 @@ class Snake(pygame.sprite.Sprite):
         self.tete = self.img_tetes[self.direction]
         self.image = self.tete
         self.rect = self.image.get_rect()
-        print(self.rect)
         self.rect.x = (nb_tuiles/2) * taille_tuiles
         self.rect.y = (nb_tuiles/2) * taille_tuiles
         self.taille = 3
@@ -46,6 +45,54 @@ class Snake(pygame.sprite.Sprite):
 
     def draw(self):
         screen.blit(self.tete, self.rect)
+
+class Body(pygame.sprite.Sprite):
+    def __init__(self, liste_de_positions):
+        super().__init__()
+        self.images = []
+        self.liste = liste_de_positions
+
+    def choisir_image(self):
+        for t in range(len(self.liste)) :
+            if self.liste[t] == self.liste[0] :
+                if self.liste[t][0] > self.liste[1][0]:
+                    self.images.append(pygame.image.load("assets/images/tail_right.png").convert_alpha())
+                elif self.liste[t][0] < self.liste[1][0]:
+                    self.images.append(pygame.image.load("assets/images/tail_left.png").convert_alpha())
+                elif self.liste[t][1] > self.liste[1][1]:
+                    self.images.append(pygame.image.load("assets/images/tail_up.png").convert_alpha())
+                elif self.liste[t][1] < self.liste[1][1]:
+                    self.images.append(pygame.image.load("assets/images/tail_down.png").convert_alpha())
+            else :
+                if self.liste[t][0] > self.liste[t - 1][0]:
+                    if self.liste[t][1] > self.liste[t + 1][1]:
+                        self.images.append(pygame.image.load("assets/images/body_topleft.png").convert_alpha())
+                    elif self.liste[t][1] < self.liste[t + 1][1]:
+                        self.images.append(pygame.image.load("assets/images/body_bottomleft.png").convert_alpha())
+                    else :
+                        self.images.append(pygame.image.load("assets/images/body_horizontal.png").convert_alpha())
+                elif self.liste[t][0] < self.liste[t - 1][0]:
+                    if self.liste[t][1] > self.liste[t + 1][1]:
+                        self.images.append(pygame.image.load("assets/images/body_topright.png").convert_alpha())
+                    elif self.liste[t][1] < self.liste[t + 1][1]:
+                        self.images.append(pygame.image.load("assets/images/body_bottomright.png").convert_alpha())
+                    else :
+                        self.images.append(pygame.image.load("assets/images/body_horizontal.png").convert_alpha())
+                elif self.liste[t][1] > self.liste[t - 1][1]:
+                    if self.liste[t][0] > self.liste[t + 1][0]:
+                        self.images.append(pygame.image.load("assets/images/body_topleft.png").convert_alpha())
+                    elif self.liste[t][0] < self.liste[t + 1][0]:
+                        self.images.append(pygame.image.load("assets/images/body_topright.png").convert_alpha())
+                    else :
+                        self.images.append(pygame.image.load("assets/images/body_vertical.png").convert_alpha())
+                elif self.liste[t][1] < self.liste[t - 1][1]:
+                    if self.liste[t][0] > self.liste[t + 1][0]:
+                        self.images.append(pygame.image.load("assets/images/body_bottomleft.png").convert_alpha())
+                    elif self.liste[t][0] < self.liste[t + 1][0]:
+                        self.images.append(pygame.image.load("assets/images/body_bottomright.png").convert_alpha())
+                    else :
+                        self.images.append(pygame.image.load("assets/images/body_vertical.png").convert_alpha())
+
 
 snake = Snake()
 
