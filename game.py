@@ -41,9 +41,13 @@ class Snake(pygame.sprite.Sprite):
         self.rect.x = (nb_tuiles/2) * taille_tuiles
         self.rect.y = (nb_tuiles/2) * taille_tuiles
         self.taille = 3
-        self.liste_pos = []
+        self.liste_pos = [(self.rect.x, self.rect.y), (self.rect.x, self.rect.y), (self.rect.x, self.rect.y)]
 
     def draw(self):
+        body = Body(self.liste_pos)
+        liste_images = body.choisir_image()
+        for t in range(len(liste_images)):
+            screen.blit(liste_images[t], self.liste_pos[t])
         screen.blit(self.tete, self.rect)
 
 class Body(pygame.sprite.Sprite):
@@ -60,9 +64,11 @@ class Body(pygame.sprite.Sprite):
                 elif self.liste[t][0] < self.liste[1][0]:
                     self.images.append(pygame.image.load("assets/images/tail_left.png").convert_alpha())
                 elif self.liste[t][1] > self.liste[1][1]:
-                    self.images.append(pygame.image.load("assets/images/tail_up.png").convert_alpha())
-                elif self.liste[t][1] < self.liste[1][1]:
                     self.images.append(pygame.image.load("assets/images/tail_down.png").convert_alpha())
+                elif self.liste[t][1] < self.liste[1][1]:
+                    self.images.append(pygame.image.load("assets/images/tail_up.png").convert_alpha())
+            elif self.liste[t] == self.liste[-1]:
+                break
             else :
                 if self.liste[t][0] > self.liste[t - 1][0]:
                     if self.liste[t][1] > self.liste[t + 1][1]:
@@ -92,6 +98,7 @@ class Body(pygame.sprite.Sprite):
                         self.images.append(pygame.image.load("assets/images/body_bottomright.png").convert_alpha())
                     else :
                         self.images.append(pygame.image.load("assets/images/body_vertical.png").convert_alpha())
+        return self.images
 
 
 snake = Snake()
