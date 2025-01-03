@@ -38,20 +38,47 @@ class Snake(pygame.sprite.Sprite):
         self.tete = self.img_tetes[self.direction]
         self.image = self.tete
         self.rect = self.image.get_rect()
+        print(self.rect)
         self.rect.x = (nb_tuiles/2) * taille_tuiles
         self.rect.y = (nb_tuiles/2) * taille_tuiles
 
     def draw(self):
-        screen.blit(self.image, self.rect)
+        screen.blit(self.tete, self.rect)
+
+snake = Snake()
 
 # Boucle de jeu
+clock = pygame.time.Clock()
 running = True
 while running :
+    screen.fill(couleurs["vert"])
+    snake.draw()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 running = False
+            elif event.key == pygame.K_UP and snake.direction != 'B':
+                snake.direction = 'H'
+                snake.tete = snake.img_tetes[snake.direction]
+            elif event.key == pygame.K_DOWN and snake.direction != 'H':
+                snake.direction = 'B'
+                snake.tete = snake.img_tetes[snake.direction]
+            elif event.key == pygame.K_RIGHT and snake.direction != 'G':
+                snake.direction = 'D'
+                snake.tete = snake.img_tetes[snake.direction]
+            elif event.key == pygame.K_LEFT and snake.direction != 'D':
+                snake.direction = 'G'
+                snake.tete = snake.img_tetes[snake.direction]
+    if snake.direction == "H" :
+        snake.rect.y -= taille_tuiles
+    elif snake.direction == "B" :
+        snake.rect.y += taille_tuiles
+    elif snake.direction == "D" :
+        snake.rect.x += taille_tuiles
+    elif snake.direction == "G" :
+        snake.rect.x -= taille_tuiles
     pygame.display.flip()
+    clock.tick(7)
 pygame.quit()
