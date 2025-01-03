@@ -38,8 +38,8 @@ class Snake(pygame.sprite.Sprite):
         self.tete = self.img_tetes[self.direction]
         self.image = self.tete
         self.rect = self.image.get_rect()
-        self.rect.x = (nb_tuiles/2) * taille_tuiles
-        self.rect.y = (nb_tuiles/2) * taille_tuiles
+        self.rect.x = 7 * taille_tuiles
+        self.rect.y = 7 * taille_tuiles
         self.taille = 3
         self.liste_pos = [(self.rect.x, self.rect.y), (self.rect.x, self.rect.y), (self.rect.x, self.rect.y)]
 
