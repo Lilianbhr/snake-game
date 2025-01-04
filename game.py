@@ -47,6 +47,10 @@ class Snake(pygame.sprite.Sprite):
         body = Body(self.liste_pos)
         liste_images = body.choisir_image()
         for t in range(len(liste_images)):
+            rect = liste_images[t].get_rect()
+            rect.x = self.liste_pos[t][0]
+            rect.y = self.liste_pos[t][1]
+            liste_serpent.append(self.rect)
             screen.blit(liste_images[t], self.liste_pos[t])
         screen.blit(self.tete, self.rect)
 
@@ -102,9 +106,9 @@ class Body(pygame.sprite.Sprite):
 
 
 snake = Snake()
-liste_serpent = pygame.sprite.Group
-liste_nourriture = pygame.sprite.Group
-liste_globale = pygame.sprite.Group
+liste_serpent = []
+liste_nourriture = []
+liste_globale = []
 
 # Boucle de jeu
 clock = pygame.time.Clock()
