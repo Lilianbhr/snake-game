@@ -24,6 +24,7 @@ screen.fill(couleurs["vert"])
 
 # Musique
 pygame.mixer.music.load("assets/music/music.mp3")
+pygame.mixer.music.set_volume(0.5)
 pygame.mixer.music.play()
 
 class Snake(pygame.sprite.Sprite):
@@ -106,6 +107,16 @@ class Body(pygame.sprite.Sprite):
         return self.images
 
 
+def afficher_score(score):
+    background = pygame.Surface((largeur, score_hauteur))
+    background.fill(couleurs["noir"])
+    background.convert()
+    font = pygame.font.SysFont("Arial", taille_tuiles - 20)
+    text = font.render(f"points = {score}", 1, couleurs["blanc"])
+    text_pos = text.get_rect(centerx = largeur / 2, centery = score_hauteur / 2)
+    background.blit(text, (text_pos))
+    screen.blit(background, (0, 0))
+
 snake = Snake()
 liste_serpent = []
 liste_nourriture = []
@@ -117,6 +128,7 @@ clock = pygame.time.Clock()
 running = True
 while running :
     screen.fill(couleurs["vert"])
+    afficher_score(score)
     snake.liste_pos.append((snake.rect.x, snake.rect.y))
     if len(snake.liste_pos) > snake.taille :
         snake.liste_pos.remove(snake.liste_pos[0])
@@ -146,19 +158,19 @@ while running :
     if snake.direction == "H" :
         snake.rect.y -= taille_tuiles
         if snake.rect.y < score_hauteur :
-            snake.rect.y = hauteur
+            running = False
     elif snake.direction == "B" :
         snake.rect.y += taille_tuiles
         if snake.rect.y > hauteur :
-            snake.rect.y = score_hauteur
+            running = False
     elif snake.direction == "D" :
         snake.rect.x += taille_tuiles
         if snake.rect.x > largeur :
-            snake.rect.x = 0
+            running = False
     elif snake.direction == "G" :
         snake.rect.x -= taille_tuiles
         if snake.rect.x < 0 :
-            snake.rect.x = largeur
+            running = False
     pygame.display.flip()
     clock.tick(7)
 pygame.quit()
