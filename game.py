@@ -52,7 +52,6 @@ class Snake(pygame.sprite.Sprite):
             rect = liste_images[t].get_rect()
             rect.x = self.liste_pos[t][0]
             rect.y = self.liste_pos[t][1]
-            liste_serpent.append(self.rect)
             screen.blit(liste_images[t], self.liste_pos[t])
         screen.blit(self.tete, self.rect)
 
@@ -118,9 +117,6 @@ def afficher_score(score):
     screen.blit(background, (0, 0))
 
 snake = Snake()
-liste_serpent = []
-liste_nourriture = []
-liste_globale = []
 score = 0
 
 # Boucle de jeu
