@@ -1,11 +1,12 @@
 import pygame
+from random import *
 pygame.init()
 pygame.mixer.init()
 
 # Taile des tuilles
 nb_tuiles = 15
 taille_tuiles = 40
-score_hauteur = 32
+score_hauteur = 40
 
 # Couleures
 couleurs = {
@@ -38,8 +39,8 @@ class Snake(pygame.sprite.Sprite):
         self.tete = self.img_tetes[self.direction]
         self.image = self.tete
         self.rect = self.image.get_rect()
-        self.rect.x = 7 * taille_tuiles
-        self.rect.y = 7 * taille_tuiles
+        self.rect.x = nb_tuiles // 2 * taille_tuiles
+        self.rect.y = nb_tuiles // 2 * taille_tuiles + score_hauteur
         self.taille = 3
         self.liste_pos = [(self.rect.x, self.rect.y), (self.rect.x, self.rect.y), (self.rect.x, self.rect.y)]
 
@@ -109,15 +110,16 @@ snake = Snake()
 liste_serpent = []
 liste_nourriture = []
 liste_globale = []
+score = 0
 
 # Boucle de jeu
 clock = pygame.time.Clock()
 running = True
 while running :
+    screen.fill(couleurs["vert"])
     snake.liste_pos.append((snake.rect.x, snake.rect.y))
     if len(snake.liste_pos) > snake.taille :
         snake.liste_pos.remove(snake.liste_pos[0])
-    screen.fill(couleurs["vert"])
     snake.draw()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -128,15 +130,19 @@ while running :
             elif event.key == pygame.K_UP and snake.direction != 'B':
                 snake.direction = 'H'
                 snake.tete = snake.img_tetes[snake.direction]
+                break
             elif event.key == pygame.K_DOWN and snake.direction != 'H':
                 snake.direction = 'B'
                 snake.tete = snake.img_tetes[snake.direction]
+                break
             elif event.key == pygame.K_RIGHT and snake.direction != 'G':
                 snake.direction = 'D'
                 snake.tete = snake.img_tetes[snake.direction]
+                break
             elif event.key == pygame.K_LEFT and snake.direction != 'D':
                 snake.direction = 'G'
                 snake.tete = snake.img_tetes[snake.direction]
+                break
     if snake.direction == "H" :
         snake.rect.y -= taille_tuiles
         if snake.rect.y < score_hauteur :
