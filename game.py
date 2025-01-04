@@ -102,6 +102,9 @@ class Body(pygame.sprite.Sprite):
 
 
 snake = Snake()
+liste_serpent = pygame.sprite.Group
+liste_nourriture = pygame.sprite.Group
+liste_globale = pygame.sprite.Group
 
 # Boucle de jeu
 clock = pygame.time.Clock()
