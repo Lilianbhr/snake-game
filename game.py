@@ -22,7 +22,7 @@ pygame.display.set_caption("Snake")
 screen.fill(couleurs["vert"])
 
 # Musique
-musique = pygame.mixer.music.load("assets/music/music.mp3")
+pygame.mixer.music.load("assets/music/music.mp3")
 pygame.mixer.music.play()
 
 class Snake(pygame.sprite.Sprite):
@@ -135,12 +135,20 @@ while running :
                 snake.tete = snake.img_tetes[snake.direction]
     if snake.direction == "H" :
         snake.rect.y -= taille_tuiles
+        if snake.rect.y < score_hauteur :
+            snake.rect.y = hauteur
     elif snake.direction == "B" :
         snake.rect.y += taille_tuiles
+        if snake.rect.y > hauteur :
+            snake.rect.y = score_hauteur
     elif snake.direction == "D" :
         snake.rect.x += taille_tuiles
+        if snake.rect.x > largeur :
+            snake.rect.x = 0
     elif snake.direction == "G" :
         snake.rect.x -= taille_tuiles
+        if snake.rect.x < 0 :
+            snake.rect.x = largeur
     pygame.display.flip()
     clock.tick(7)
 pygame.quit()
